@@ -10,14 +10,14 @@ export const createApplication = async (appData: NewApplication): Promise<Applic
 }
 export const findAllApplications = async (): Promise<Application[]> => {
     const { rows } = await query(
-        "SELECT * FROM application ORDER BY applied_at DESC"
+        "SELECT * FROM applications ORDER BY applied_at DESC"
 
     );
     return rows
 }
 
 export const findApplicationById = async (id: number): Promise<Application | null> => {
-    const { rows } = await query("SELECT * FROM application WHERE id = $1", [
+    const { rows } = await query("SELECT * FROM applications WHERE id = $1", [
         id,
 
     ]);
@@ -25,15 +25,13 @@ export const findApplicationById = async (id: number): Promise<Application | nul
 }
 export const updateApplication = async (id: number, appData: Application): Promise<Application | null> => {
     const { status } = appData
-    const { rows } = await query("UPDATE application SET status = $1 WHERE id = $2 RETURNING*",
+    const { rows } = await query("UPDATE applications SET status = $1 WHERE id = $2 RETURNING *",
         [status, id]
     );
     return rows[0] || null;
 };
 
 export const deleteApplication = async (id: number): Promise<Application | null> => {
-    const { rows } = await query(" DELETE FROM application WHERE id = $1 RETURNING *", [id]
-
-    );
+    const { rows } = await query("DELETE FROM applications WHERE id = $1 RETURNING *", [id]);
     return rows[0] || null;
 };

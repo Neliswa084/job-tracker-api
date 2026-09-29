@@ -50,18 +50,36 @@ export const updateApplicationById = async (req: Request, res: Response) => {
   }
 };
 
+// export const deleteApplicationById = async (req: Request, res: Response) => {
+//   try {
+//     const id = parseInt(String(req.params.id));
+//     const deletedApplication = await applicationService.deleteApplication(id)
+//     if (!deletedApplication) {
+//       res.status(404).json({ message: "Application not found" });
+//     }
+
+//     res.status(200).json({ message: "Application deleted successfully" })
+//     // console.log(error)
+//   } catch (error) {
+//      console.log(error)
+//     res.status(500).json({ message: "Error deleting the application" })
+
+//   }
+// };
+
 export const deleteApplicationById = async (req: Request, res: Response) => {
   try {
     const id = parseInt(String(req.params.id));
-    const deletedApplication = await applicationService.deleteApplication(id)
+    const deletedApplication = await applicationService.deleteApplication(id);
+    
     if (!deletedApplication) {
-      res.status(404).json({ message: "Application not found" });
+      return res.status(404).json({ message: "Application not found" });
     }
 
-    res.status(200).json({ message: "Application deleted successfully" })
-    // console.log(error)
+    
+    return res.status(200).json({ message: "Application deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error deleting the application" })
-
+    console.error(error); 
+    return res.status(500).json({ message: "Error deleting the application" });
   }
 };
